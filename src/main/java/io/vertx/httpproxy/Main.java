@@ -21,6 +21,12 @@ public class Main {
   @Parameter(names = "--address")
   public String address = "0.0.0.0";
 
+  @Parameter(names = "--target-addr", required = true)
+  public String targetAddress = "";
+
+  @Parameter(names = "--target-port", required = true)
+  public int targetPort = -1;
+
   public static void main(String[] args) {
     Main main = new Main();
     JCommander jc = new JCommander(main);
@@ -36,7 +42,7 @@ public class Main {
         .setLogActivity(true));
     HttpProxy proxy = HttpProxy
         .reverseProxy(client)
-        .target(8081, "96.126.115.136");
+        .target(targetPort, targetAddress);
     HttpServer proxyServer = vertx.createHttpServer(new HttpServerOptions()
         .setPort(port)
         .setMaxInitialLineLength(10000)
